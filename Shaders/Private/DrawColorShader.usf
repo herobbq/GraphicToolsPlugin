@@ -1,0 +1,26 @@
+#include "/Engine/Public/Platform.ush"
+
+float4 SimpleColor;
+Texture2D Texture1;
+SamplerState TextureSample1;
+
+
+void MainVS(
+ in float4 InPosition : ATTRIBUTE0,
+ in float2 InTexCoord : ATTRIBUTE1,
+ out float2 OutTexCoord : TEXCOORD0,
+ out float4 OutPosition : SV_POSITION
+ )
+{
+	// screenspace position from vb
+	OutPosition = InPosition;
+	OutTexCoord = InTexCoord;
+}
+void MainPS(
+	in float2 InUV : TEXCOORD0,
+	out float4 OutColor : SV_Target0
+	)
+{
+	OutColor = Texture1.SampleLevel(TextureSample1, InUV.xy, 0.0) * SimpleColor;
+	OutColor.a = 1;
+}
